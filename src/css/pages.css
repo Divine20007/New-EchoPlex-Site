@@ -103,7 +103,7 @@
   font-size: var(--font-size-sm);
   font-weight: var(--font-bold);
   color: var(--color-white);
-  box-shadow: 0 0 60px rgba(62, 131, 152, 0.4);
+  box-shadow: 0 0 60px rgba(108, 77, 255, 0.4);
   z-index: 3;
 }
 
@@ -113,7 +113,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  border: 1px solid rgba(165, 205, 217, 0.15);
+  border: 1px solid rgba(173, 158, 255, 0.15);
 }
 .orb-ring-1 { width: 200px; height: 200px; }
 .orb-ring-2 { width: 340px; height: 340px; }
@@ -138,7 +138,7 @@
 
 .orb-node:hover {
   transform: scale(1.2);
-  box-shadow: 0 0 20px rgba(165, 205, 217, 0.4);
+  box-shadow: 0 0 20px rgba(173, 158, 255, 0.4);
 }
 
 .orb-node-game     { background: var(--color-primary-400); top: 5%;  left: 50%; transform: translateX(-50%); animation-delay: 0s; }
@@ -534,11 +534,11 @@
 
 /* Product page colored accent */
 .page-hero.game-hero     { background: linear-gradient(180deg, var(--color-primary-900), var(--color-primary-800)); }
-.page-hero.creator-hero  { background: linear-gradient(180deg, #2d2618, var(--color-primary-900)); }
-.page-hero.story-hero    { background: linear-gradient(180deg, #1a2d24, var(--color-primary-900)); }
+.page-hero.creator-hero  { background: linear-gradient(180deg, #3a2a0c, var(--color-primary-900)); }
+.page-hero.story-hero    { background: linear-gradient(180deg, #12261d, var(--color-primary-900)); }
 .page-hero.market-hero   { background: linear-gradient(180deg, var(--color-secondary-800), var(--color-primary-900)); }
 .page-hero.community-hero{ background: linear-gradient(180deg, var(--color-primary-800), var(--color-primary-900)); }
-.page-hero.trade-hero    { background: linear-gradient(180deg, #2d2518, var(--color-primary-900)); }
+.page-hero.trade-hero    { background: linear-gradient(180deg, #3a2a0c, var(--color-primary-900)); }
 
 /* --- Overview Section --- */
 .page-overview {
@@ -644,6 +644,19 @@
 .feature-item p {
   font-size: var(--font-size-sm);
   line-height: var(--line-height-relaxed);
+}
+
+.guild-list {
+  color: var(--color-text-secondary);
+  list-style: circle;
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+  line-height: 1.8;
+}
+
+.guild-list li {
+  margin-bottom: 0.25rem;
+  color: inherit;
 }
 
 .feature-item-icon {
@@ -855,7 +868,7 @@
 
 .eco-center-circle {
   fill: var(--color-primary-600);
-  filter: drop-shadow(0 0 12px rgba(62, 131, 152, 0.3));
+  filter: drop-shadow(0 0 12px rgba(108, 77, 255, 0.3));
 }
 
 .eco-center-label {
@@ -1082,7 +1095,7 @@
   border-color: var(--color-primary-400);
   background: var(--color-surface);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(62, 131, 152, 0.1);
+  box-shadow: 0 0 0 3px rgba(108, 77, 255, 0.1);
 }
 
 .form-field textarea {
@@ -1267,7 +1280,7 @@
   background: var(--color-primary-600);
   color: var(--color-white);
   transform: scale(1.25);
-  box-shadow: 0 0 16px rgba(42, 102, 120, 0.3);
+  box-shadow: 0 0 16px rgba(108, 77, 255, 0.3);
 }
 
 .flywheel-step.flywheel-active .flywheel-step-label {
@@ -1298,7 +1311,7 @@
   justify-content: center;
   font-size: var(--font-size-sm);
   font-weight: var(--font-bold);
-  box-shadow: 0 0 30px rgba(42, 102, 120, 0.2);
+  box-shadow: 0 0 30px rgba(108, 77, 255, 0.2);
 }
 
 .flywheel-caption {
@@ -1312,4 +1325,496 @@
   .flywheel-step { width: 80px; }
   .flywheel-step-label { font-size: 10px; }
   .flywheel-core { width: 60px; height: 60px; }
+}
+
+/* ============================================================
+   ECHOPLEX REFINEMENT LAYER
+   Appended overrides — original rules above are untouched.
+   Signature: the ECHO (concentric rings, hairline arcs,
+   one warm amber tick).
+   ============================================================ */
+
+/* --- HERO -------------------------------------------------- */
+
+.hero-home {
+  min-height: min(92vh, 940px);
+  padding:
+    calc(var(--nav-height) + clamp(3rem, 8vh, 6rem))
+    var(--space-3)
+    clamp(4rem, 9vh, 7rem);
+  background:
+    radial-gradient(70rem 46rem at 22% 8%, rgba(var(--color-primary-rgb), 0.30), transparent 62%),
+    radial-gradient(48rem 34rem at 88% 78%, rgba(var(--color-accent-rgb), 0.09), transparent 60%),
+    linear-gradient(180deg, #100d20 0%, #0d1017 62%, var(--color-bg) 100%);
+}
+
+@media (min-width: 640px) {
+  .hero-home { padding-inline: var(--space-4); }
+}
+
+/* Faint concentric guide arcs bleeding out of the orb — the motif
+   at architectural scale, not decoration. */
+.hero-home::after {
+  content: '';
+  position: absolute;
+  right: -12%;
+  top: 50%;
+  width: 1100px;
+  height: 1100px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    repeating-radial-gradient(
+      circle at center,
+      transparent 0 78px,
+      rgba(255, 255, 255, 0.028) 78px 79px
+    );
+  mask-image: radial-gradient(circle at center, #000 38%, transparent 72%);
+}
+
+.hero-content {
+  max-width: 620px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65em;
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.18em;
+  color: var(--color-accent-400);
+  margin-bottom: var(--space-3);
+  padding: 0.4rem 0.9rem 0.4rem 0.75rem;
+  border: 1px solid rgba(var(--color-accent-rgb), 0.28);
+  border-radius: var(--radius-full);
+  background: rgba(var(--color-accent-rgb), 0.07);
+  backdrop-filter: blur(6px);
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent-400);
+  box-shadow: 0 0 10px 1px rgba(var(--color-accent-rgb), 0.9);
+  animation: pulse 3.2s var(--ease-in-out) infinite;
+}
+
+.hero-title {
+  font-size: var(--font-size-6xl);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+  text-wrap: balance;
+}
+
+.hero-subtitle {
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.1875rem);
+  color: var(--color-text-secondary);
+  max-width: 50ch;
+  margin-bottom: var(--space-5);
+}
+
+.hero-cta {
+  gap: 0.875rem;
+  align-items: center;
+}
+
+/* Hero CTA: violet leads, amber is the quiet second voice */
+.hero-home .btn-primary,
+.section-cta-final .btn-primary,
+.page-cta .btn-primary {
+  background: var(--color-primary-500);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: var(--color-white);
+  padding: 0.9375rem var(--space-5);
+  font-size: var(--font-size-base);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 6px 22px -8px rgba(var(--color-primary-rgb), 0.85);
+}
+.hero-home .btn-primary:hover,
+.section-cta-final .btn-primary:hover,
+.page-cta .btn-primary:hover {
+  background: var(--color-primary-600);
+  border-color: rgba(255, 255, 255, 0.24);
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.26),
+    0 14px 38px -10px rgba(var(--color-primary-rgb), 0.95),
+    0 0 0 1px rgba(var(--color-primary-rgb), 0.4);
+}
+
+.hero-home .btn-ghost,
+.section-cta-final .btn-ghost {
+  padding: 0.9375rem var(--space-5);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.hero-home .btn-ghost:hover,
+.section-cta-final .btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.26);
+  transform: translateY(-2px);
+}
+
+.hero-visual {
+  right: -6%;
+  width: min(560px, 52vw);
+  height: min(560px, 52vw);
+  z-index: 1;
+}
+.hero-orb { animation: float 9s var(--ease-in-out) infinite; }
+
+/* --- CARDS: one shared premium treatment ------------------- */
+
+.problem-card,
+.value-card,
+.eco-preview-card,
+.featured-card,
+.related-card,
+.feature-item,
+.milestone-card,
+.contact-info-card,
+.roadmap-phase-content,
+.step-item {
+  position: relative;
+  background: var(--gradient-surface), var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition:
+    transform var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+/* The hairline that catches light on hover */
+.problem-card::before,
+.value-card::before,
+.eco-preview-card::before,
+.featured-card::before,
+.related-card::before,
+.feature-item::before,
+.roadmap-phase-content::before,
+.step-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--gradient-hairline);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  pointer-events: none;
+}
+
+.problem-card:hover,
+.value-card:hover,
+.eco-preview-card:hover,
+.featured-card:hover,
+.related-card:hover,
+.feature-item:hover,
+.roadmap-phase-content:hover,
+.step-item:hover {
+  transform: translateY(-4px);
+  border-color: rgba(var(--color-primary-rgb), 0.38);
+  box-shadow: var(--shadow-lg);
+}
+
+.problem-card:hover::before,
+.value-card:hover::before,
+.eco-preview-card:hover::before,
+.featured-card:hover::before,
+.related-card:hover::before,
+.feature-item:hover::before,
+.roadmap-phase-content:hover::before,
+.step-item:hover::before { opacity: 1; }
+
+/* Consistent internal padding across every card type */
+.problem-card,
+.value-card,
+.eco-preview-card,
+.related-card,
+.feature-item,
+.contact-info-card { padding: var(--space-4); }
+
+.featured-card { padding: var(--space-5); }
+
+/* Icon wells — concentric ring motif */
+.problem-icon,
+.value-card-icon,
+.eco-preview-icon,
+.feature-item-icon {
+  position: relative;
+  background:
+    linear-gradient(140deg, rgba(var(--color-primary-rgb), 0.22), rgba(var(--color-primary-rgb), 0.06));
+  border: 1px solid rgba(var(--color-primary-rgb), 0.26);
+  color: var(--color-primary-800);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-base), transform var(--transition-base);
+}
+.value-card-icon { border-radius: 50%; }
+
+.problem-card:hover .problem-icon,
+.value-card:hover .value-card-icon,
+.eco-preview-card:hover .eco-preview-icon,
+.feature-item:hover .feature-item-icon {
+  border-color: rgba(var(--color-primary-rgb), 0.55);
+  transform: translateY(-1px);
+}
+
+/* Numbered items get the amber tick */
+.principle-number,
+.step-number,
+.overview-stat-value,
+.milestone-number,
+.flywheel-step-num {
+  color: var(--color-accent-400);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.principle {
+  padding: var(--space-4) 0 var(--space-2);
+  border-top: 1px solid var(--color-border);
+  transition: border-color var(--transition-base);
+}
+.principle:hover { border-top-color: rgba(var(--color-accent-rgb), 0.5); }
+.principle h3 { color: var(--color-text); }
+.principle p { color: var(--color-text-secondary); }
+
+/* --- DARK PANEL SECTIONS ----------------------------------- */
+
+.section-cta-final,
+.page-cta {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(46rem 26rem at 50% 120%, rgba(var(--color-primary-rgb), 0.28), transparent 65%),
+    #0b0a16;
+  padding-block: var(--section-gap);
+  border-block: 1px solid var(--color-border-subtle);
+}
+
+.section-why {
+  background: var(--color-bg-alt);
+  border-block: 1px solid var(--color-border-subtle);
+}
+
+.page-hero {
+  padding:
+    calc(var(--nav-height) + var(--space-5))
+    0
+    var(--space-7);
+  background:
+    radial-gradient(56rem 30rem at 18% 0%, rgba(var(--color-primary-rgb), 0.26), transparent 62%),
+    linear-gradient(180deg, #100d20 0%, var(--color-bg) 100%);
+}
+.page-hero h1 { color: var(--color-text); }
+.page-hero-subtitle { color: var(--color-text-secondary); max-width: 58ch; }
+.page-hero-eyebrow {
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.18em;
+  color: var(--color-accent-400);
+}
+
+/* Breadcrumb sits inside the hero band, so kill the double offset */
+.breadcrumb-bar + .page-hero { padding-top: var(--space-5); }
+
+/* --- SECTION RHYTHM ---------------------------------------- */
+
+.section-problem,
+.section-why,
+.section-featured,
+.section-roadmap-preview,
+.page-overview,
+.page-content-section {
+  padding-block: var(--section-gap);
+}
+
+.page-content-section + .page-content-section { padding-top: 0; }
+
+/* --- TYPOGRAPHY -------------------------------------------- */
+
+.problem-card p,
+.value-card p,
+.eco-preview-card p,
+.related-card p,
+.feature-item p,
+.principle p,
+.step-content p {
+  font-size: var(--font-size-sm);
+  line-height: 1.65;
+  max-width: 46ch;
+}
+
+.value-card p { margin-inline: auto; }
+
+.overview-text p,
+.cta-final-content p,
+.page-cta p,
+.roadmap-phase-content p {
+  max-width: 58ch;
+}
+
+.featured-list li,
+.roadmap-phase-list li,
+.benefit-item span {
+  line-height: 1.6;
+}
+
+/* --- RESPONSIVE -------------------------------------------- */
+
+@media (max-width: 1100px) {
+  .problem-grid,
+  .principles-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 1024px) {
+  /* The orb becomes an ambient backdrop rather than a column */
+  .hero-home {
+    min-height: auto;
+    display: block;
+  }
+  .hero-content { max-width: 100%; }
+  .hero-visual {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: min(420px, 78vw);
+    height: min(420px, 78vw);
+    margin: var(--space-6) auto 0;
+  }
+  .hero-home::after { opacity: 0.5; }
+}
+
+@media (max-width: 860px) {
+  .content-grid-3,
+  .content-grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .problem-grid,
+  .principles-grid,
+  .featured-grid,
+  .ecosystem-preview-grid,
+  .related-grid,
+  .vision-values,
+  .content-grid-2,
+  .content-grid-3,
+  .content-grid-4,
+  .overview-grid,
+  .contact-layout,
+  .about-milestone-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-cta { width: 100%; }
+  .hero-cta .btn { flex: 1 1 100%; }
+
+  .cta-final-buttons { flex-direction: column; align-items: stretch; }
+  .cta-final-buttons .btn { width: 100%; }
+
+  .hero-visual { width: min(320px, 82vw); height: min(320px, 82vw); }
+  .hero-home::after { display: none; }
+}
+
+@media (max-width: 480px) {
+  .featured-card { padding: var(--space-3); }
+  .problem-card,
+  .value-card,
+  .eco-preview-card,
+  .related-card,
+  .feature-item,
+  .contact-info-card { padding: var(--space-3); }
+  .overview-stat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* --- FORMS ------------------------------------------------- */
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+}
+.form-field input::placeholder,
+.form-field textarea::placeholder { color: var(--color-text-muted); }
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(var(--color-primary-rgb), 0.6);
+  box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.18);
+}
+
+.form-field label {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-medium);
+}
+
+.form-success {
+  background: rgba(58, 157, 108, 0.12);
+  border: 1px solid rgba(58, 157, 108, 0.35);
+  color: var(--color-success-400);
+  border-radius: var(--radius-md);
+}
+
+/* --- STAGGER: reveals cascade instead of firing together ---- */
+
+.problem-grid > .fade-up:nth-child(n),
+.principles-grid > .fade-up:nth-child(n),
+.ecosystem-preview-grid > .fade-up:nth-child(n),
+.featured-grid > .fade-up:nth-child(n) {
+  transition-duration: 0.75s;
+}
+
+/* --- ALIGNMENT + ORB VISIBILITY (final pass) ---------------- */
+
+/* Hero copy aligns to the same gutter as the nav brand */
+.hero-home {
+  padding-inline: max(
+    var(--space-3),
+    calc((100% - var(--container-max)) / 2 + var(--space-4))
+  );
+}
+
+/* Keep the orb fully inside the viewport — no clipped nodes */
+.hero-visual {
+  right: max(0px, calc((100% - var(--container-max)) / 2));
+}
+
+/* The orb is the brand motif: keep it on tablet, drop it on phones */
+@media (max-width: 1024px) {
+  .hero-visual {
+    display: block;
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: min(440px, 74vw);
+    height: min(440px, 74vw);
+    margin: var(--space-6) auto 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero-visual { display: none; }
+  .hero-home { padding-bottom: var(--space-7); }
 }
