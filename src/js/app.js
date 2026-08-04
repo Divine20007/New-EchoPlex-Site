@@ -54,7 +54,7 @@ function buildNav() {
         <button class="nav-search" aria-label="Search" id="nav-search-btn">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
         </button>
-        <button class="nav-mobile-toggle" aria-label="Toggle menu" id="mobile-toggle" aria-expanded="false">
+        <button class="nav-mobile-toggle" aria-label="Open menu" id="mobile-toggle" aria-controls="mobile-menu" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
       </div>
@@ -69,21 +69,36 @@ function buildNav() {
   // Mobile menu toggle
   const toggle = document.getElementById('mobile-toggle');
   const menu = document.getElementById('mobile-menu');
+  const closeMobileMenu = () => {
+    menu.classList.remove('open');
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Open menu');
+    document.body.style.overflow = '';
+  };
+
   toggle.addEventListener('click', () => {
     const open = menu.classList.toggle('open');
     toggle.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', open);
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     document.body.style.overflow = open ? 'hidden' : '';
+
+    if (open) menu.querySelector('a')?.focus();
   });
 
   // Close mobile menu on link click
-  menu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      menu.classList.remove('open');
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    });
+  menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMobileMenu));
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && menu.classList.contains('open')) {
+      closeMobileMenu();
+      toggle.focus();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 860 && menu.classList.contains('open')) closeMobileMenu();
   });
 
   // Search button
