@@ -19,6 +19,89 @@ const PAGES = [
   { href: '/contact.html',    label: 'Contact',     title: 'Contact' },
 ];
 
+// --- Content Index (cached search data) ---
+let contentIndex = [];
+let contentIndexLoaded = false;
+
+// Build searchable content index from page HTML
+async function buildContentIndex() {
+  if (contentIndexLoaded) return;
+  
+  contentIndex = [];
+  
+  for (const page of PAGES) {
+    try {
+      const response = await fetch(page.href);
+      const html = await response.text();
+      
+      // Parse HTML and extract text content
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      
+      // Extract meaningful text (headings, paragraphs, buttons, etc.)
+      const textElements = doc.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, button, a, span[data-tooltip]');
+      const textContent = Array.from(textElements)
+        .map(el => el.textContent.trim())
+        .filter(text => text.length > 0)
+        .join(' ');
+      
+      if (textContent) {
+        contentIndex.push({
+          page: page.label,
+          href: page.href,
+          title: page.title,
+          content: textContent.toLowerCase(),
+          snippet: textContent.substring(0, 150) + (textContent.length > 150 ? '...' : '')
+        });
+      }
+    } catch (error) {
+      console.warn(`Failed to index ${page.href}:`, error);
+    }
+  }
+  
+  contentIndexLoaded = true;
+}
+
+// Search through indexed content
+function searchContent(query) {
+  if (!query.trim()) return [];
+  
+  const normalizedQuery = query.trim().toLowerCase();
+  const queryTerms = normalizedQuery.split(/\s+/);
+  
+  const results = contentIndex
+    .map(item => {
+      // Calculate relevance score
+      let score = 0;
+      let matches = [];
+      
+      queryTerms.forEach(term => {
+        // Check if term matches in different sections
+        if (item.title.toLowerCase().includes(term)) score += 10;
+        if (item.page.toLowerCase().includes(term)) score += 8;
+        
+        // Find all occurrences in content
+        const regex = new RegExp(`\\b${term}\\w*`, 'gi');
+        const contentMatches = item.content.match(regex) || [];
+        
+        if (contentMatches.length > 0) {
+          score += contentMatches.length * 2;
+          matches.push(...contentMatches);
+        }
+      });
+      
+      return {
+        ...item,
+        score,
+        matches: [...new Set(matches)].slice(0, 3) // Get unique matches, limit to 3
+      };
+    })
+    .filter(item => item.score > 0)
+    .sort((a, b) => b.score - a.score);
+  
+  return results;
+}
+
 // --- Get current page path ---
 function getCurrentPath() {
   const path = window.location.pathname;
@@ -45,8 +128,8 @@ function initSearch(searchBtn) {
     <div class="search-dialog">
       <div class="search-dialog-header">
         <div>
-          <span class="search-eyebrow">Explore EchoPlex</span>
-          <h2 id="site-search-title">Where do you want to go?</h2>
+          <span class="search-eyebrow">Search EchoPlex</span>
+          <h2 id="site-search-title">Find anything</h2>
         </div>
         <button class="search-close" type="button" aria-label="Close search">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -55,20 +138,19 @@ function initSearch(searchBtn) {
         </button>
       </div>
       <form class="search-form" role="search">
-        <label class="sr-only" for="site-search-input">Search EchoPlex pages</label>
+        <label class="sr-only" for="site-search-input">Search content</label>
         <div class="search-input-wrap">
           <svg class="search-input-icon" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>
           </svg>
-          <input id="site-search-input" type="search" placeholder="Search pages..." autocomplete="off" spellcheck="false" />
+          <input id="site-search-input" type="search" placeholder="Search keywords..." autocomplete="off" spellcheck="false" />
           <kbd>ESC</kbd>
         </div>
       </form>
       <div class="search-status">
         <span id="search-result-count"></span>
-        <span>Press Enter to open</span>
       </div>
-      <div class="search-results" id="search-results" aria-live="polite"></div>
+      <div class="search-results" id="search-results" aria-live="polite" aria-label="Search results"></div>
     </div>
   `;
   document.body.appendChild(modal);
@@ -79,36 +161,53 @@ function initSearch(searchBtn) {
   const closeBtn = modal.querySelector('.search-close');
   const resultsContainer = modal.querySelector('#search-results');
   const resultCount = modal.querySelector('#search-result-count');
-  let filteredPages = PAGES;
+  let searchResults = [];
   let closeTimer;
   let previousOverflow = '';
 
   const renderResults = query => {
-    const normalizedQuery = query.trim().toLowerCase();
-    filteredPages = PAGES.filter(page =>
-      `${page.title} ${page.label} ${page.href}`.toLowerCase().includes(normalizedQuery)
-    );
-
-    resultCount.textContent = `${filteredPages.length} ${filteredPages.length === 1 ? 'result' : 'results'}`;
-
-    if (!filteredPages.length) {
+    if (!query.trim()) {
+      resultCount.textContent = '';
       resultsContainer.innerHTML = `
         <div class="search-empty">
-          <span class="search-empty-mark">—</span>
-          <strong>Not found.</strong>
-          <span>Try a different page name.</span>
+          <span class="search-empty-mark">🔍</span>
+          <strong>Start typing to search</strong>
+          <span>Search by keyword across all pages</span>
         </div>
       `;
       return;
     }
 
-    resultsContainer.innerHTML = filteredPages.map((page, index) => `
-      <a class="search-result" href="${page.href}" data-link>
-        <span class="search-result-index">${String(index + 1).padStart(2, '0')}</span>
-        <span class="search-result-copy">
-          <strong>${page.title}</strong>
-          <span>${page.href === '/' ? 'Home' : page.href.replace(/^\//, '').replace('.html', '')}</span>
-        </span>
+    searchResults = searchContent(query);
+
+    resultCount.textContent = `${searchResults.length} ${searchResults.length === 1 ? 'result' : 'results'}`;
+
+    if (!searchResults.length) {
+      resultsContainer.innerHTML = `
+        <div class="search-empty">
+          <span class="search-empty-mark">—</span>
+          <strong>No results found.</strong>
+          <span>Try different keywords</span>
+        </div>
+      `;
+      return;
+    }
+
+    resultsContainer.innerHTML = searchResults.map((result, index) => `
+      <a class="search-result" href="${result.href}" data-link>
+        <div class="search-result-header">
+          <span class="search-result-index">${String(index + 1).padStart(2, '0')}</span>
+          <span class="search-result-page">${result.page}</span>
+        </div>
+        <div class="search-result-content">
+          <strong>${result.title}</strong>
+          <p class="search-result-snippet">${result.snippet}</p>
+          ${result.matches.length > 0 ? `
+            <div class="search-result-matches">
+              ${result.matches.map(match => `<span class="match-tag">${match}</span>`).join('')}
+            </div>
+          ` : ''}
+        </div>
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M5 12h14M13 6l6 6-6 6"/>
         </svg>
@@ -116,12 +215,19 @@ function initSearch(searchBtn) {
     `).join('');
   };
 
-  const openSearch = () => {
+  const openSearch = async () => {
     window.clearTimeout(closeTimer);
     previousOverflow = document.body.style.overflow;
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
     input.value = '';
+    
+    // Load index when search opens
+    if (!contentIndexLoaded) {
+      resultCount.textContent = 'Loading...';
+      await buildContentIndex();
+    }
+    
     renderResults('');
     requestAnimationFrame(() => {
       modal.classList.add('open');
@@ -145,7 +251,7 @@ function initSearch(searchBtn) {
 
   form.addEventListener('submit', event => {
     event.preventDefault();
-    if (filteredPages[0]) window.location.href = filteredPages[0].href;
+    if (searchResults[0]) window.location.href = searchResults[0].href;
   });
 
   modal.addEventListener('click', event => {
