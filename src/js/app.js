@@ -32,6 +32,149 @@ function getCurrentIndex() {
   return PAGES.findIndex(p => p.href === current);
 }
 
+// --- Site Search ---
+function initSearch(searchBtn) {
+  const modal = document.createElement('div');
+  modal.className = 'search-modal';
+  modal.id = 'site-search-modal';
+  modal.setAttribute('role', 'dialog');
+  modal.setAttribute('aria-modal', 'true');
+  modal.setAttribute('aria-labelledby', 'site-search-title');
+  modal.hidden = true;
+  modal.innerHTML = `
+    <div class="search-dialog">
+      <div class="search-dialog-header">
+        <div>
+          <span class="search-eyebrow">Explore EchoPlex</span>
+          <h2 id="site-search-title">Where do you want to go?</h2>
+        </div>
+        <button class="search-close" type="button" aria-label="Close search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M18 6 6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <form class="search-form" role="search">
+        <label class="sr-only" for="site-search-input">Search EchoPlex pages</label>
+        <div class="search-input-wrap">
+          <svg class="search-input-icon" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>
+          </svg>
+          <input id="site-search-input" type="search" placeholder="Search pages..." autocomplete="off" spellcheck="false" />
+          <kbd>ESC</kbd>
+        </div>
+      </form>
+      <div class="search-status">
+        <span id="search-result-count"></span>
+        <span>Press Enter to open</span>
+      </div>
+      <div class="search-results" id="search-results" aria-live="polite"></div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const dialog = modal.querySelector('.search-dialog');
+  const form = modal.querySelector('.search-form');
+  const input = modal.querySelector('#site-search-input');
+  const closeBtn = modal.querySelector('.search-close');
+  const resultsContainer = modal.querySelector('#search-results');
+  const resultCount = modal.querySelector('#search-result-count');
+  let filteredPages = PAGES;
+  let closeTimer;
+  let previousOverflow = '';
+
+  const renderResults = query => {
+    const normalizedQuery = query.trim().toLowerCase();
+    filteredPages = PAGES.filter(page =>
+      `${page.title} ${page.label} ${page.href}`.toLowerCase().includes(normalizedQuery)
+    );
+
+    resultCount.textContent = `${filteredPages.length} ${filteredPages.length === 1 ? 'result' : 'results'}`;
+
+    if (!filteredPages.length) {
+      resultsContainer.innerHTML = `
+        <div class="search-empty">
+          <span class="search-empty-mark">—</span>
+          <strong>Not found.</strong>
+          <span>Try a different page name.</span>
+        </div>
+      `;
+      return;
+    }
+
+    resultsContainer.innerHTML = filteredPages.map((page, index) => `
+      <a class="search-result" href="${page.href}" data-link>
+        <span class="search-result-index">${String(index + 1).padStart(2, '0')}</span>
+        <span class="search-result-copy">
+          <strong>${page.title}</strong>
+          <span>${page.href === '/' ? 'Home' : page.href.replace(/^\//, '').replace('.html', '')}</span>
+        </span>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6"/>
+        </svg>
+      </a>
+    `).join('');
+  };
+
+  const openSearch = () => {
+    window.clearTimeout(closeTimer);
+    previousOverflow = document.body.style.overflow;
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    input.value = '';
+    renderResults('');
+    requestAnimationFrame(() => {
+      modal.classList.add('open');
+      input.focus();
+    });
+  };
+
+  const closeSearch = () => {
+    modal.classList.remove('open');
+    document.body.style.overflow = previousOverflow;
+    closeTimer = window.setTimeout(() => {
+      if (!modal.classList.contains('open')) modal.hidden = true;
+    }, 220);
+    searchBtn.focus();
+  };
+
+  searchBtn.setAttribute('aria-controls', modal.id);
+  searchBtn.addEventListener('click', openSearch);
+  closeBtn.addEventListener('click', closeSearch);
+  input.addEventListener('input', event => renderResults(event.target.value));
+
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    if (filteredPages[0]) window.location.href = filteredPages[0].href;
+  });
+
+  modal.addEventListener('click', event => {
+    if (event.target === modal) closeSearch();
+  });
+
+  modal.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      closeSearch();
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+    const focusable = [closeBtn, input, ...resultsContainer.querySelectorAll('a')];
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  dialog.addEventListener('click', event => event.stopPropagation());
+}
+
 // --- Build Navigation ---
 function buildNav() {
   const nav = document.getElementById('site-nav');
@@ -103,9 +246,8 @@ function buildNav() {
 
   // Search button
   const searchBtn = document.getElementById('nav-search-btn');
-  searchBtn.addEventListener('click', () => {
-    alert('Search is coming soon.');
-  });
+  searchBtn.addEventListener('click', closeMobileMenu);
+  initSearch(searchBtn);
 
   // Scrolled state
   const onScroll = () => {
