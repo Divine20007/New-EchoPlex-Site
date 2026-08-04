@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The EchoPlex Ecosystem — six products connected around one identity. Explore the node map, the growth flywheel, and the products on the horizon." />
+  <title>The Ecosystem — EchoPlex</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/css/design-system.css" />
+  <link rel="stylesheet" href="/src/css/layout.css" />
+  <link rel="stylesheet" href="/src/css/pages.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Navigation injected by JS -->
+    <nav id="site-nav"></nav>
+
+    <!-- Breadcrumbs -->
+    <div class="breadcrumb-bar" id="breadcrumbs"></div>
+
+    <!-- Page Hero -->
+    <header class="page-hero">
+      <div class="page-hero-content">
+        <div class="page-hero-eyebrow fade-up">The Ecosystem</div>
+        <h1 class="fade-up" style="--delay: 0.1s">Everything connects.</h1>
+        <p class="page-hero-subtitle fade-up" style="--delay: 0.2s">
+          One identity. One journey. Unlimited possibilities. Six products orbit a single core —
+          EchoPlex Identity — where every action you take strengthens the whole.
+        </p>
+      </div>
+    </header>
+
+    <!-- Ecosystem Node Map -->
+    <section class="page-content-section">
+      <div class="container">
+        <div class="section-header fade-up">
+          <span class="section-label">The Map</span>
+          <h2 class="section-title">Six products. One core.</h2>
+          <p class="section-description">
+            Every product in EchoPlex is connected to a single identity. Tap any node to dive deeper.
+          </p>
+        </div>
+
+        <div class="ecosystem-map fade-up" style="--delay: 0.1s">
+          <svg class="ecosystem-svg" viewBox="0 0 900 600" role="img" aria-labelledby="ecosystem-map-title ecosystem-map-desc">
+            <title id="ecosystem-map-title">EchoPlex Ecosystem Map</title>
+            <desc id="ecosystem-map-desc">A central node representing EchoPlex Identity connected to six surrounding product nodes: Game Hub, Creator Hub, Story Hub, Marketplace, Communities, and TradeFusion.</desc>
+
+            <!-- Connectors (dashed lines from center to each node) -->
+            <line class="eco-connector" x1="450" y1="300" x2="450" y2="100" />
+            <line class="eco-connector" x1="450" y1="300" x2="623" y2="200" />
+            <line class="eco-connector" x1="450" y1="300" x2="623" y2="400" />
+            <line class="eco-connector" x1="450" y1="300" x2="450" y2="500" />
+            <line class="eco-connector" x1="450" y1="300" x2="277" y2="400" />
+            <line class="eco-connector" x1="450" y1="300" x2="277" y2="200" />
+
+            <!-- Center: EchoPlex Identity -->
+            <g class="eco-center-group">
+              <circle class="eco-center-circle" cx="450" cy="300" r="70" />
+              <text class="eco-center-label" x="450" y="295" text-anchor="middle">EchoPlex</text>
+              <text class="eco-center-label eco-center-sub" x="450" y="318" text-anchor="middle">Identity</text>
+            </g>
+
+            <!-- Node: Game Hub (top) -->
+            <g class="eco-node-group">
+              <a href="/game-hub.html" data-link>
+                <circle class="eco-node-circle" cx="450" cy="100" r="52" fill="#3f8398" />
+                <text class="eco-node-label" x="450" y="95" text-anchor="middle">Game</text>
+                <text class="eco-node-label" x="450" y="113" text-anchor="middle">Hub</text>
+              </a>
+            </g>
+
+            <!-- Node: Creator Hub (top-right) -->
+            <g class="eco-node-group">
+              <a href="/creator-hub.html" data-link>
+                <circle class="eco-node-circle" cx="623" cy="200" r="52" fill="#dba82f" />
+                <text class="eco-node-label" x="623" y="195" text-anchor="middle">Creator</text>
+                <text class="eco-node-label" x="623" y="213" text-anchor="middle">Hub</text>
+              </a>
+            </g>
+
+            <!-- Node: Story Hub (bottom-right) -->
+            <g class="eco-node-group">
+              <a href="/story-hub.html" data-link>
+                <circle class="eco-node-circle" cx="623" cy="400" r="52" fill="#3a8a5e" />
+                <text class="eco-node-label" x="623" y="395" text-anchor="middle">Story</text>
+                <text class="eco-node-label" x="623" y="413" text-anchor="middle">Hub</text>
+              </a>
+            </g>
+
+            <!-- Node: Marketplace (bottom) -->
+            <g class="eco-node-group">
+              <a href="/marketplace.html" data-link>
+                <circle class="eco-node-circle" cx="450" cy="500" r="52" fill="#56564f" />
+                <text class="eco-node-label" x="450" y="495" text-anchor="middle">Market-</text>
+                <text class="eco-node-label" x="450" y="513" text-anchor="middle">place</text>
+              </a>
+            </g>
+
+            <!-- Node: Communities (bottom-left) -->
+            <g class="eco-node-group">
+              <a href="/communities.html" data-link>
+                <circle class="eco-node-circle" cx="277" cy="400" r="52" fill="#6ba9bc" />
+                <text class="eco-node-label" x="277" y="395" text-anchor="middle">Commun-</text>
+                <text class="eco-node-label" x="277" y="413" text-anchor="middle">ities</text>
+              </a>
+            </g>
+
+            <!-- Node: TradeFusion (top-left) -->
+            <g class="eco-node-group">
+              <a href="/tradefusion.html" data-link>
+                <circle class="eco-node-circle" cx="277" cy="200" r="52" fill="#d4a03e" />
+                <text class="eco-node-label" x="277" y="195" text-anchor="middle">Trade-</text>
+                <text class="eco-node-label" x="277" y="213" text-anchor="middle">Fusion</text>
+              </a>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Detail Cards -->
+    <section class="page-content-section" style="background: var(--color-bg-alt);">
+      <div class="container">
+        <div class="section-header fade-up">
+          <span class="section-label">The Products</span>
+          <h2 class="section-title">Each one stands on its own.</h2>
+          <p class="section-description">Together, they form something greater than the sum of their parts.</p>
+        </div>
+
+        <div class="content-grid-3">
+          <article class="feature-item fade-up" style="--delay: 0.05s">
+            <div class="feature-item-icon eco-preview-icon eco-icon-game" style="background:#3f8398;color:#fff;">G</div>
+            <h3>Game Hub</h3>
+            <p>The entertainment engine. Play, compete, and progress through a unified journey.</p>
+            <a href="/game-hub.html" class="featured-link" data-link>Learn more →</a>
+          </article>
+
+          <article class="feature-item fade-up" style="--delay: 0.1s">
+            <div class="feature-item-icon eco-preview-icon eco-icon-creator" style="background:#dba82f;color:#fff;">C</div>
+            <h3>Creator Hub</h3>
+            <p>Build, publish, collaborate, and grow a creative legacy you actually own.</p>
+            <a href="/creator-hub.html" class="featured-link" data-link>Learn more →</a>
+          </article>
+
+          <article class="feature-item fade-up" style="--delay: 0.15s">
+            <div class="feature-item-icon eco-preview-icon eco-icon-story" style="background:#3a8a5e;color:#fff;">S</div>
+            <h3>Story Hub</h3>
+            <p>Transform storytelling into living, collaborative worlds with timelines and lore.</p>
+            <a href="/story-hub.html" class="featured-link" data-link>Learn more →</a>
+          </article>
+
+          <article class="feature-item fade-up" style="--delay: 0.2s">
+            <div class="feature-item-icon eco-preview-icon eco-icon-market" style="background:#56564f;color:#fff;">M</div>
+            <h3>Marketplace</h3>
+            <p>Where creativity becomes opportunity. Trade, collect, and license digital assets.</p>
+            <a href="/marketplace.html" class="featured-link" data-link>Learn more →</a>
+          </article>
+
+          <article class="feature-item fade-up" style="--delay: 0.25s">
+            <div class="feature-item-icon eco-preview-icon eco-icon-community" style="background:#6ba9bc;color:#fff;">Co</div>
+            <h3>Communities</h3>
+            <p>Spaces for belonging, learning, guilds, mentorship, and meaningful discussion.</p>
+            <a href="/communities.html" class="featured-link" data-link>Learn more →</a>
+          </article>
+
+          <article class="feature-item fade-up" style="--delay: 0.3s">
+            <div class="feature-item-icon eco-preview-icon eco-icon-trade" style="background:#d4a03e;color:#fff;">T</div>
+            <h3>TradeFusion</h3>
+            <p>The financial layer. Simple, secure, ecosystem-first wallet and asset management.</p>
+            <a href="/tradefusion.html" class="featured-link" data-link>Learn more →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Growth Flywheel -->
+    <section class="page-content-section">
+      <div class="container">
+        <div class="section-header fade-up">
+          <span class="section-label">The Flywheel</span>
+          <h2 class="section-title">The EchoPlex growth cycle.</h2>
+          <p class="section-description">
+            Every contribution feeds the next. Momentum builds on itself — a flywheel that never stops turning.
+          </p>
+        </div>
+
+        <div class="flywheel fade-up" style="--delay: 0.1s">
+          <div class="flywheel-ring">
+            <div class="flywheel-step flywheel-step-1">
+              <span class="flywheel-step-num">1</span>
+              <span class="flywheel-step-label">New Users</span>
+            </div>
+            <div class="flywheel-step flywheel-step-2">
+              <span class="flywheel-step-num">2</span>
+              <span class="flywheel-step-label">Explore</span>
+            </div>
+            <div class="flywheel-step flywheel-step-3">
+              <span class="flywheel-step-num">3</span>
+              <span class="flywheel-step-label">Participate</span>
+            </div>
+            <div class="flywheel-step flywheel-step-4">
+              <span class="flywheel-step-num">4</span>
+              <span class="flywheel-step-label">Earn Reputation &amp; ECP</span>
+            </div>
+            <div class="flywheel-step flywheel-step-5">
+              <span class="flywheel-step-num">5</span>
+              <span class="flywheel-step-label">Create More Content</span>
+            </div>
+            <div class="flywheel-step flywheel-step-6">
+              <span class="flywheel-step-num">6</span>
+              <span class="flywheel-step-label">Strengthen Communities</span>
+            </div>
+            <div class="flywheel-core">EchoPlex</div>
+          </div>
+          <p class="flywheel-caption">…and the cycle attracts new users, starting it all over again.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Future Products -->
+    <section class="page-content-section" style="background: var(--color-bg-alt);">
+      <div class="container">
+        <div class="section-header fade-up">
+          <span class="section-label">On The Horizon</span>
+          <h2 class="section-title">Future products.</h2>
+          <p class="section-description">
+            The ecosystem is built to evolve. These are the products coming next — each one deepening the connections.
+          </p>
+        </div>
+
+        <div class="content-grid-3">
+          <article class="feature-item fade-up" style="--delay: 0.05s">
+            <div class="feature-item-icon">AI</div>
+            <h3>AI Creator Studio</h3>
+            <p>AI as a genuine creative assistant — drafting, suggesting, and accelerating without replacing the human voice.</p>
+          </article>
+
+          <article class="feature-item fade-up" style="--delay: 0.1s">
+            <div class="feature-item-icon">LA</div>
+            <h3>Learning Academy</h3>
+            <p>Structured learning paths for creators, developers, and communities — from first steps to mastery.</p>
+          </article>
+
+          <article class="feature-item fade-up" style="--delay: 0.15s">
+            <div class="feature-item-icon">MA</div>
+            <h3>Mobile Apps</h3>
+            <p>The full EchoPlex identity in your pocket — continuity across every device, everywhere.</p>
+          </article>
+
+          <article class="feature-item fade-up" style="--delay: 0.2s">
+            <div class="feature-item-icon">SH</div>
+            <h3>Streaming Hub</h3>
+            <p>Live streaming that connects directly to identity, reputation, and creator portfolios.</p>
+          </article>
+
+          <article class="feature-item fade-up" style="--delay: 0.25s">
+            <div class="feature-item-icon">DM</div>
+            <h3>Developer Marketplace</h3>
+            <p>Tools, templates, and integrations from the community — for the community.</p>
+          </article>
+
+          <article class="feature-item fade-up" style="--delay: 0.3s">
+            <div class="feature-item-icon">VR</div>
+            <h3>VR/AR Experiences</h3>
+            <p>Immersive worlds where stories, games, and communities come alive in new dimensions.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page CTA -->
+    <section class="page-cta">
+      <div class="container">
+        <div class="fade-up">
+          <h2>Ready to explore?</h2>
+          <p>Step into a connected ecosystem where your identity, your creativity, and your community grow together.</p>
+          <a href="/contact.html" class="btn btn-primary" data-link>Get in Touch</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page Navigation -->
+    <div class="page-nav" id="page-nav"></div>
+
+    <!-- Footer -->
+    <footer id="site-footer"></footer>
+  </div>
+
+  <script type="module" src="/src/js/app.js"></script>
+  <script type="module" src="/src/js/pages/ecosystem.js"></script>
+</body>
+</html>
