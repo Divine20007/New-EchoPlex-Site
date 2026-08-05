@@ -5,7 +5,8 @@
 
 .search-result {
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.75rem;
   padding: 1rem;
   margin: 0.5rem 0;
   border: 1px solid #e5e7eb;
@@ -14,14 +15,22 @@
   transition: all 0.2s ease;
   text-decoration: none;
   color: inherit;
-  align-items: flex-start;
+  align-items: stretch;
   background: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .search-result:hover {
   background: #f9fafb;
   border-color: #d1d5db;
   transform: translateX(4px);
+}
+
+.search-result:active {
+  background: #f3f4f6;
+  transform: translateX(2px);
 }
 
 .search-result:focus-visible {
@@ -33,15 +42,15 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  flex-shrink: 0;
-  min-width: 80px;
+  flex-wrap: wrap;
 }
 
 .search-result-index {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: #9ca3af;
   font-family: monospace;
+  flex-shrink: 0;
 }
 
 .search-result-page {
@@ -50,62 +59,70 @@
   color: #4338ca;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .search-result-content {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
 }
 
 .search-result-content strong {
   display: block;
-  font-size: 0.95rem;
-  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+  margin: 0;
   color: #1f2937;
   font-weight: 600;
+  line-height: 1.3;
+  word-break: break-word;
 }
 
 .search-result-snippet {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #6b7280;
-  margin: 0.25rem 0;
+  margin: 0;
   line-height: 1.4;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  word-break: break-word;
 }
 
 .search-result-matches {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+  gap: 0.375rem;
+  margin-top: 0.25rem;
 }
 
 .match-tag {
   display: inline-block;
   background: #fef3c7;
   color: #92400e;
-  padding: 0.25rem 0.5rem;
+  padding: 0.2rem 0.4rem;
   border-radius: 4px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 150px;
+  max-width: 120px;
+  flex-shrink: 0;
 }
 
 .search-result > svg {
+  display: none;
   flex-shrink: 0;
-  margin-left: 0.5rem;
   color: #d1d5db;
   transition: color 0.2s ease;
 }
@@ -117,6 +134,7 @@
 .search-results {
   max-height: 60vh;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 0.5rem 0;
 }
 
@@ -156,25 +174,27 @@
 
 .search-empty strong {
   color: #374151;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
 }
 
 .search-empty span {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   color: #9ca3af;
 }
 
 .search-status {
   padding: 0.75rem 1.5rem;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #9ca3af;
   border-top: 1px solid #e5e7eb;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-/* Dark mode support (if using dark theme like in the existing layout.css) */
+/* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .search-result {
     border-color: rgba(255, 255, 255, 0.1);
@@ -183,6 +203,10 @@
   .search-result:hover {
     background: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .search-result:active {
+    background: rgba(255, 255, 255, 0.08);
   }
 
   .search-result-content strong {
@@ -217,40 +241,99 @@
   }
 }
 
-/* Responsive design */
-@media (max-width: 640px) {
+/* Tablet optimization (640px - 1024px) */
+@media (min-width: 641px) and (max-width: 1024px) {
   .search-result {
+    flex-direction: row;
     gap: 0.75rem;
-    padding: 0.875rem;
-    margin: 0.375rem 0;
+    align-items: flex-start;
   }
 
   .search-result-header {
+    flex-direction: column;
+    gap: 0.25rem;
     min-width: 70px;
-    gap: 0.375rem;
+    flex-shrink: 0;
   }
 
-  .search-result-index {
-    font-size: 0.8125rem;
-  }
-
-  .search-result-page {
-    font-size: 0.6875rem;
-    padding: 0.1875rem 0.375rem;
+  .search-result > svg {
+    display: block;
   }
 
   .search-result-content strong {
-    font-size: 0.875rem;
+    font-size: 0.9rem;
   }
 
   .search-result-snippet {
-    font-size: 0.8125rem;
-    -webkit-line-clamp: 2;
+    font-size: 0.8rem;
   }
 
   .match-tag {
     font-size: 0.7rem;
-    padding: 0.1875rem 0.375rem;
+    padding: 0.2rem 0.4rem;
+  }
+}
+
+/* Mobile optimization (max-width: 640px) */
+@media (max-width: 640px) {
+  .search-result {
+    gap: 0.6rem;
+    padding: 0.875rem;
+    margin: 0.375rem 0;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-result:active {
+    background: #f3f4f6;
+    transform: none;
+  }
+
+  .search-result-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    align-items: center;
+  }
+
+  .search-result-index {
+    font-size: 0.7rem;
+    min-width: 20px;
+  }
+
+  .search-result-page {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.35rem;
+  }
+
+  .search-result-content {
+    gap: 0.3rem;
+  }
+
+  .search-result-content strong {
+    font-size: 0.85rem;
+    line-height: 1.3;
+  }
+
+  .search-result-snippet {
+    font-size: 0.75rem;
+    -webkit-line-clamp: 2;
+    line-height: 1.35;
+  }
+
+  .search-result-matches {
+    gap: 0.3rem;
+    margin-top: 0.2rem;
+  }
+
+  .match-tag {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.3rem;
+    max-width: 100px;
+  }
+
+  .search-result > svg {
+    display: none;
   }
 
   .search-empty {
@@ -262,10 +345,38 @@
   }
 
   .search-empty strong {
-    font-size: 0.875rem;
+    font-size: 0.85rem;
   }
 
   .search-empty span {
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
+  }
+
+  .search-status {
+    font-size: 0.75rem;
+    padding: 0.65rem 1rem;
+  }
+
+  /* Disable hover effects on mobile */
+  .search-result:hover {
+    transform: none;
+  }
+}
+
+/* Desktop optimization (min-width: 1025px) */
+@media (min-width: 1025px) {
+  .search-result {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .search-result-header {
+    min-width: 100px;
+    flex-shrink: 0;
+  }
+
+  .search-result > svg {
+    display: block;
   }
 }
